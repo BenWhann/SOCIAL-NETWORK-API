@@ -6,7 +6,6 @@ connection.on('error', (err) => err);
 
 connection.once('open', async () => {
     console.log('connected');
-    // Delete the collections if they exist
     let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
     if (userCheck.length) {
         await connection.dropCollection('users');
@@ -17,8 +16,6 @@ connection.once('open', async () => {
         await connection.dropCollection('thoughts');
     }
 
-
-    // Add students to the collection and await the results
     const userDocuments = await User.insertMany(users);
 
     await Promise.all(thoughts.map(async (thought) => {
@@ -34,8 +31,6 @@ connection.once('open', async () => {
         await user.updateOne({$addToSet: {thoughts: thoughtDocument._id}})
     }))
 
-
-    // Log out the seed data to indicate what should appear in the database
-    console.info('Seeding complete! 🌱');
+    console.info('Seeding complete');
     process.exit(0);
 });
