@@ -12,7 +12,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
-    // Get a single user
+    // Get a single thought
     async getSingleThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
@@ -30,7 +30,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
-    // create a new user
+    // create a new thought
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
@@ -39,38 +39,36 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    // Delete a user
-    async deleteUser(req, res) {
+    // Delete a thought
+    async deleteThought(req, res) {
         try {
-            const user = await User.findOneAndRemove({ _id: req.params.userId });
+            const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
 
-            if (!user) {
-                return res.status(404).json({ message: 'No such user exists' });
+            if (!thought) {
+                return res.status(404).json({ message: 'No such thought exists' });
             }
-            res.json({ message: 'User successfully deleted' });
+            res.json({ message: 'Thought successfully deleted' });
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
         }
     },
 
-    async updateUser(req, res) {
+    async updateThought(req, res) {
 
         try {
-            const user = await User.findOneAndUpdate(
-                { _id: req.params.userId },
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
 
-            console.log(user);
-
-            if (!user) {
+            if (!thought) {
                 return res.status(404).json({
-                    message: 'No such user exists',
+                    message: 'No such thought exists',
                 });
             }
-            res.json(user)
+            res.json(thought)
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
