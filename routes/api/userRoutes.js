@@ -5,9 +5,6 @@ const {
   createUser,
   deleteUser,
   updateUser,
-  addReaction,
-  removeAssignment,
-  //getSingleUser,
 } = require('../../controllers/userController');
 
 // /api/users
